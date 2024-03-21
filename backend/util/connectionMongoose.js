@@ -6,7 +6,7 @@ async function connectMongoose() {
   const _database = "products";
   const _user = "omar";
   const _cluster = "cluster0.taehtxj.mongodb.net";
-  const _uri = `mongodb+srv://${_user}:${_pwd}@${_cluster}/${_database}?retryWrites=true&w=majority`;
+  const _uri = "mongodb+srv://omar:Jww5nz3lkde8sUOA@cluster0.9krnhbb.mongodb.net/Finanz-Tracker";
   try {
     await mongoose.connect(_uri);
     const collections = (
