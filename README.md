@@ -2,7 +2,7 @@
 
 ist eine benutzerfreundliche Anwendung, die es den Benutzern ermöglicht, ihre finanziellen Transaktionen zu verfolgen, Budgets zu erstellen und Ausgaben zu analysieren. Das Frontend der App wurde mit React entwickelt, wodurch eine reaktionsfähige und interaktive Benutzeroberfläche entstanden ist.
 
-##live-demo
+## live-demo
 https://finanz-tracker-1.onrender.com
 
 ## Funktionen
