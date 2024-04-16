@@ -2,6 +2,9 @@
 
 ist eine benutzerfreundliche Anwendung, die es den Benutzern ermöglicht, ihre finanziellen Transaktionen zu verfolgen, Budgets zu erstellen und Ausgaben zu analysieren. Das Frontend der App wurde mit React entwickelt, wodurch eine reaktionsfähige und interaktive Benutzeroberfläche entstanden ist.
 
+##live-demo
+https://finanz-tracker-1.onrender.com
+
 ## Funktionen
 Auf der Backend-Seite wird Node.js mit dem Express-Framework eingesetzt, um eine robuste und skalierbare API zu erstellen. Diese API ermöglicht es dem Frontend, mit der MongoDB-Datenbank zu kommunizieren, in der die Finanzdaten der Benutzer gespeichert sind.
 
