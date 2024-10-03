@@ -8,7 +8,7 @@ app.use(cors());
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://finanz-tracker.onrender.com",
+    "https://finanz-tracker-api.onrender.com",
     "http://localhost:5173"
   );
   res.setHeader(
