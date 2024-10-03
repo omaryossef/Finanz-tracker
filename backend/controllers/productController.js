@@ -1,19 +1,32 @@
 import productModel from "../model/productModel.js";
 
 export const getAllProduct = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const products = await productModel.find();
-    res.status(200).send(products);
+    const user = await productModel.findById(id);
+    if (!user) {
+      res.status(400).send("user not found");
+    } else {
+      res.status(200).json(user.productions);
+    }
   } catch (error) {
     res.status(500).send("Server error" + error);
   }
 };
 
 export const addProduct = async (req, res) => {
-  const newProduct = new productModel(req.body);
+  const { id } = req.params;
+  const { name, price, category } = req.body;
   try {
-    await newProduct.save();
-    res.send("some products added!");
+    const user = await productModel.findById(id);
+    if (!user) {
+      res.status(400).send("user not found");
+    } else {
+      user.productions.push({ name, price, category });
+      await user.save();
+      res.status(200).send("aded new product ");
+    }
   } catch (error) {
     res.send(error, "new product was not added!");
   }

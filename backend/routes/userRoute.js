@@ -5,13 +5,19 @@ import {
   deleteProduct,
   getAllProduct,
 } from "../controllers/productController.js";
+import {
+  postUserLogin,
+  postUserRegister,
+} from "../controllers/userController.js";
 
 const productRouter = Router();
 
 productRouter
-  .get("/", getAllProduct)
-  .post("/", addProduct)
+  .get("/allproduct/:id", getAllProduct)
+  .post("/addproduct/:id", addProduct)
   .patch("/:id", updateProduct)
-  .delete("/:id", deleteProduct);
+  .delete("/:id", deleteProduct)
+  .post("/signup", postUserRegister)
+  .post("/login", postUserLogin);
 
 export default productRouter;
