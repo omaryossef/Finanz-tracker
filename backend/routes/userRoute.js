@@ -15,8 +15,8 @@ const productRouter = Router();
 productRouter
   .get("/allproduct/:id", getAllProduct)
   .post("/addproduct/:id", addProduct)
-  .patch("/:id", updateProduct)
-  .delete("/:id", deleteProduct)
+  .patch("/updateProduct/:id/:productId", updateProduct)
+  .delete("/deleteProduct/:id/:productId", deleteProduct)
   .post("/signup", postUserRegister)
   .post("/login", postUserLogin);
 

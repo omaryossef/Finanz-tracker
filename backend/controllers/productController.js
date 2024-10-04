@@ -33,28 +33,62 @@ export const addProduct = async (req, res) => {
 };
 
 export const deleteProduct = async (req, res) => {
-  const productId = req.params.id;
+  const { id, productId } = req.params;
+  console.log(id, productId);
+
   try {
-    const deleteProduct = await productModel.findByIdAndDelete(productId);
-    res.send("product was deleted" + deleteProduct);
+    // Find the user by their ID
+    const user = await productModel.findById(id);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    // Find the index of the product to delete
+
+    const indexProduct = user.productions.findIndex(
+      (item) => item._id.toString() === productId
+    );
+    const product = user.productions.find(
+      (item) => item._id.toString() === productId
+    );
+    console.log(product);
+
+    if (indexProduct === -1) {
+      return res.status(404).send("Product not found");
+    }
+
+    // Remove the product from the array
+    user.productions.splice(indexProduct, 1);
+    await user.save(); // Save the user document with the updated array
+
+    res.status(200).send("Product was deleted successfully");
+    // res.status(200).json(product);
   } catch (error) {
-    res.send("there is no such Product!");
+    console.error(error);
+    res.status(500).json(error);
   }
 };
 
 export const updateProduct = async (req, res) => {
-  const productId = req.params.id;
-  const newProduct = req.body;
+  const { id, productId } = req.params;
+  const { name, price, category } = req.body;
   try {
-    const updatedProduct = await productModel.findByIdAndUpdate(
-      productId,
-      newProduct,
-      {
-        new: true,
-      }
+    const user = await productModel.findById(id);
+    if (!user) {
+      return res.status(400).send("user not found");
+    }
+    const productIndex = user.productions.findIndex(
+      (item) => item._id.toString() === productId
     );
-    res.status(201).send("order was updated!" + updatedProduct);
+    if (productIndex === -1) {
+      return res.status(400).send("product not found");
+    }
+    if (name) user.productions[productIndex].name = name;
+    if (price) user.productions[productIndex].price = price;
+    if (category) user.productions[productIndex].category = category;
+    await user.save();
+    res.status(201).json(user.productions);
   } catch (error) {
-    res.status(500).send("server not found");
+    res.status(500).json(error);
   }
 };
