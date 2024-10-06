@@ -25,7 +25,7 @@ export const addProduct = async (req, res) => {
     } else {
       user.productions.push({ name, price, category });
       await user.save();
-      res.status(200).send("aded new product ");
+      res.status(200).send("aded new product was added successfully ");
     }
   } catch (error) {
     res.send(error, "new product was not added!");

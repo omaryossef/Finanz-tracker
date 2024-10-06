@@ -24,4 +24,4 @@ app.use(express.json());
 await connectMongoose();
 app.use("/test", (req, res) => res.send("Hello World"));
 app.use("/", userRoute);
-app.listen(3010, () => console.log("Server is on PORT:3010"));
+app.listen(4000, () => console.log("Server is on PORT:3010"));

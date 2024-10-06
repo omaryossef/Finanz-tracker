@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import productModel from "../model/productModel.js";
-
 export const postUserRegister = async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -33,13 +32,58 @@ export const postUserLogin = async (req, res) => {
         const hashedPwt = bcrypt.compare(password, user.password);
         if (hashedPwt) {
           console.log("password correct");
-          res.status(200).json(user);
+          console.log(process.env.JWTSECRET);
+
+          jwt.sign(
+            { id: user._id },
+            process.env.JWTSECRET,
+            {},
+            (err, token) => {
+              if (err) throw err;
+              res
+                .cookie("token", token, {
+                  maxAge: 90000000,
+                  httpOnly: true,
+                  sameSite:
+                    process.env.NODE_ENV === "production" ? "None" : "Lax",
+                  secure: process.env.NODE_ENV === "production",
+                })
+                .json({ id: user._id });
+            }
+          );
+
+          console.log("token created");
         }
       }
     } else {
       res.status(500).send("wrong password");
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    console.error(error.message);
+    res.status(401).json(error.message);
+  }
+};
+export const postSignoutUser = async (req, res) => {
+  res.clearCookie("token", {
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.send("signout user");
+};
+
+export const validateUser = async (req, res) => {
+  const { token } = req.cookies;
+  if (!token) return res.status(401).send("Access denied. No token provided.");
+
+  try {
+    const tokenData = jwt.verify(token, process.env.JWTSECRET);
+    const user = await productModel.findById(tokenData.id);
+    if (!user) throw new Error("User not found");
+    const { _id, username, email, password, prdocutions } = user;
+    res.status(200).json({ _id, username, email, password, prdocutions });
+    console.log("Token verified");
+  } catch (error) {
+    console.error(error.message);
+    res.status(400).json("Error: Invalid token");
   }
 };
